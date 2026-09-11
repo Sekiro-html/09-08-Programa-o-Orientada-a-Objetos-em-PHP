@@ -4,7 +4,7 @@ class Plantas {
     public string $especie;
     public string $Familia;
     public string $ciclo;
-    public string $idade;
+    public int $idade;
     public float $altura;
     public int $folhas;
     public float $temposol;
@@ -12,7 +12,7 @@ class Plantas {
     public float $agua;
     public string $UnidadeAgua;
 
-    public function __construct(string $Nome, string $especie, string $Familia, string $ciclo, string $idade, string $altura, int $folhas, string $temposol, string $UnidadeSol ,string $agua, string $UnidadeAgua)
+    public function __construct(string $Nome, string $especie, string $Familia, string $ciclo, int $idade, string $altura, int $folhas, string $temposol, string $UnidadeSol ,string $agua, string $UnidadeAgua)
     {
         $this->Nome = $Nome;
         $this->Familia = $Familia;
@@ -94,6 +94,83 @@ class Plantas {
 
 class Animais {
     public string $nome;
+    public string $especie;
+    public string $cor;
+    public int $idade;
+    public int $peso;
+    public string $alimento;
+    public int $agua;
+    public int $prato_de_comida;
+    public string $unidadeComida;
+    public int $prato_de_agua;
+    public string $unidadeAgua;
+    public int $QuantidadeComido;
+    public int $QuantidadeTomada;
+
+    public function __construct(string $nome, string $especie, string $cor, int $idade, int $peso, string $alimento, int $agua, int $prato_de_comida, string $unidadeComida, int $prato_de_agua, string $unidadeAgua, int $QuantidadeComido, int $QuantidadeTomada) {
+        $this->nome = $nome;
+        $this->especie = $especie;
+        $this->cor = $cor;
+        $this->idade = $idade;
+        $this->peso = $peso;
+        $this->alimento = $alimento;
+        $this->agua = $agua;
+        $this->prato_de_comida = $prato_de_comida;
+        $this->unidadeComida = $unidadeComida;
+        $this->prato_de_agua = $prato_de_agua;
+        $this->unidadeAgua = $unidadeAgua;
+        $this->QuantidadeComido = 0;
+        $this->QuantidadeTomada = 0;
+    }
+
+    public function ReabastecerAlimentos(int $quantcomida, int $quantagua) {
+        $this->prato_de_comida = $quantcomida;
+        if($this->prato_de_comida >= 1000){
+            $this->prato_de_comida = $this->prato_de_comida / 1000;
+            $this->unidadeComida = "kg";
+            echo "Você abasteceu $this->prato_de_comida$this->unidadeComida de $this->alimento para seu $this->especie <br>";
+        } else {
+            $this->unidadeComida = "g";
+            echo "Você colocou $this->prato_de_comida$this->unidadeComida de $this->alimento <br>";
+        }
+        $this->prato_de_agua = $quantagua;
+        if($this->prato_de_agua >= 1000){
+            $this->prato_de_agua = $this->prato_de_agua / 1000;
+            $this->unidadeAgua = "L";
+            echo "Você abasteceu $this->prato_de_agua$this->unidadeAgua de água para seu $this->especie <br>";
+        } else {
+            $this->unidadeAgua = "ml";
+            echo "Você abasteceu $this->prato_de_agua$this->unidadeAgua de água para seu $this->especie <br>"; 
+        }
+    }
+
+    public function comer($quantidadecomer){
+        if ($quantidadecomer > 100) {
+            $quantidadecomer = 100;
+        }
+        $this->prato_de_comida = ($this->prato_de_comida * $quantidadecomer) / 100;
+        echo "O $this->nome comeu $this->prato_de_comida$this->unidadeComida de $this->alimento <br>"; 
+        $this->QuantidadeComido = $this->prato_de_comida;
+        $this->prato_de_comida = $this->prato_de_comida / $quantidadecomer;
+    }
+
+    public function tomar_agua($quantidadetomar){
+        if ($quantidadetomar > 100) {
+            $quantidadetomar = 100;
+        }
+        $this->prato_de_agua = ($this->prato_de_agua * $quantidadetomar) / 100;
+        echo "O $this->nome tomou $this->prato_de_agua$this->unidadeAgua <br>"; 
+        $this->QuantidadeTomada = $this->prato_de_agua;
+        $this->prato_de_comida = $this->prato_de_comida / $quantidadetomar;
+    }
+
+    public function GanhaPeso() {
+        $this->peso = $this->peso + ($this->QuantidadeComido * 0.05);
+        $this->peso = $this->peso + ($this->QuantidadeTomada * 1);
+        echo "O $this->nome está agora pesando $this->peso kg";
+        $this->QuantidadeComido = 0;
+        $this->QuantidadeTomada = 0;
+    }
 }
 
 class Elemento {
